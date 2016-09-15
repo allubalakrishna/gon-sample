@@ -24,7 +24,7 @@ class ApidocsController < ActionController::Base
         key :url, 'https://swagger.io'
       end
     end
-    key :host, 'localhost:3000'
+    key :host, 'https://swagger-blocks.herokuapp.com'
     key :basePath, ''
     key :consumes, ['application/json']
     key :produces, ['application/json']
