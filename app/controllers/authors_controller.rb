@@ -1,7 +1,7 @@
-class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :update, :destroy]
+class AuthorsController < ApplicationController
+  before_action :set_author, only: [:show, :edit, :update, :destroy]
   include Swagger::Blocks
-  swagger_path '/posts/{id}' do
+  swagger_path '/authors/{id}' do
     operation :get do
       key :description, 'Returns a single Post if the user has access'
       key :operationId, 'findPostById'
@@ -21,9 +21,9 @@ class PostsController < ApplicationController
         key :format, :int64
       end
       response 200 do
-        key :description, 'Post response'
+        key :description, 'Author response'
         schema do
-          key :'$ref', :Post
+          key :'$ref', :Author
         end
       end
       response :default do
@@ -37,7 +37,7 @@ class PostsController < ApplicationController
       parameter do
         key :name, :id
         key :in, :path
-        key :description, 'ID of Post to fetch'
+        key :description, 'ID of Author to fetch'
         key :required, true
         key :type, :string
         key :format, :int64
@@ -45,10 +45,10 @@ class PostsController < ApplicationController
       parameter do
         key :name, :post
         key :in, :body
-        key :description, 'Post to add to the store'
+        key :description, 'Author to add to the store'
         key :required, true
         schema do
-          key :'$ref', :PostInput
+          key :'$ref', :AuthorInput
         end
       end
     end
@@ -56,21 +56,21 @@ class PostsController < ApplicationController
       parameter do
         key :name, :id
         key :in, :path
-        key :description, 'ID of Post to fetch'
+        key :description, 'ID of Author to fetch'
         key :required, true
         key :type, :string
         key :format, :int64
       end
     end
   end
-  swagger_path '/posts' do
+  swagger_path '/authors' do
     operation :get do
-      key :description, 'Returns all Post from the system that the user has access to'
-      key :operationId, 'findPosts'
+      key :description, 'Returns all Author from the system that the user has access to'
+      key :operationId, 'findAuthors'
       key :produces, [
-        'application/json',
-        'text/html',
-      ]
+                       'application/json',
+                       'text/html',
+                   ]
       parameter do
         key :name, :limit
         key :in, :query
@@ -80,11 +80,11 @@ class PostsController < ApplicationController
         key :format, :int32
       end
       response 200 do
-        key :description, 'Post response'
+        key :description, 'Author response'
         schema do
           key :type, :array
           items do
-            key :'$ref', :Post
+            key :'$ref', :Author
           end
         end
       end
@@ -96,24 +96,24 @@ class PostsController < ApplicationController
       end
     end
     operation :post do
-      key :description, 'Creates a new Post in the store.  Duplicates are allowed'
-      key :operationId, 'addPost'
+      key :description, 'Creates a new author in the store.  Duplicates are allowed'
+      key :operationId, 'addAuthor'
       key :produces, [
-        'application/json'
-      ]
+                       'application/json'
+                   ]
       parameter do
         key :name, :post
         key :in, :body
-        key :description, 'Post to add to the store'
+        key :description, 'author to add to the store'
         key :required, true
         schema do
-          key :'$ref', :PostInput
+          key :'$ref', :AuthorInput
         end
       end
       response 200 do
-        key :description, 'Post response'
+        key :description, 'author response'
         schema do
-          key :'$ref', :Post
+          key :'$ref', :Author
         end
       end
       response :default do
@@ -124,75 +124,74 @@ class PostsController < ApplicationController
       end
     end
   end
-  # GET /posts
-  # GET /posts.json
+  # GET /authors
+  # GET /authors.json
   def index
-    @posts = Post.all
+    @authors = Author.all
   end
 
-  # GET /posts/1
-  # GET /posts/1.json
+  # GET /authors/1
+  # GET /authors/1.json
   def show
-    byebug
   end
 
-  # GET /posts/new
+  # GET /authors/new
   def new
-    @post = Post.new
+    @author = Author.new
   end
 
-  # GET /posts/1/edit
+  # GET /authors/1/edit
   def edit
   end
 
-  # POST /posts
-  # POST /posts.json
+  # POST /authors
+  # POST /authors.json
   def create
-    @post = Post.new(post_params)
+    @author = Author.new(author_params)
 
     respond_to do |format|
-      if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        format.json { render :show, status: :created, location: @post }
+      if @author.save
+        format.html { redirect_to @author, notice: 'Author was successfully created.' }
+        format.json { render :show, status: :created, location: @author }
       else
         format.html { render :new }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+        format.json { render json: @author.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /posts/1
-  # PATCH/PUT /posts/1.json
+  # PATCH/PUT /authors/1
+  # PATCH/PUT /authors/1.json
   def update
     respond_to do |format|
-      if @post.update(post_params)
-        format.html { redirect_to @post, notice: 'Post was successfully updated.' }
-        format.json { render :show, status: :ok, location: @post }
+      if @author.update(author_params)
+        format.html { redirect_to @author, notice: 'Author was successfully updated.' }
+        format.json { render :show, status: :ok, location: @author }
       else
         format.html { render :edit }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+        format.json { render json: @author.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /posts/1
-  # DELETE /posts/1.json
+  # DELETE /authors/1
+  # DELETE /authors/1.json
   def destroy
-    @post.destroy
+    @author.destroy
     respond_to do |format|
-      format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
+      format.html { redirect_to authors_url, notice: 'Author was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.find(params[:id])
+    def set_author
+      @author = Author.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def post_params
-      params.require(:post).permit(:name, :pubhlish, :location)
+    def author_params
+      params.require(:author).permit(:name, :country, :gender)
     end
 end

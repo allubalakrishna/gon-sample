@@ -1,24 +1,24 @@
-class Post < ApplicationRecord
+class Author < ApplicationRecord
   validates :name, presence: true
+  enum gender: [:male, :female, :others]
   include Swagger::Blocks
-
-  swagger_schema :Post do
+  swagger_schema :Author do
     key :required, [:id, :name]
     property :name do
       key :type, :string
     end
-    property :pubhlish do
-      key :type, :boolean
+    property :country do
+      key :type, :string
     end
-    property :location do
+    property :gender do
       key :type, :string
     end
   end
 
-  swagger_schema :PostInput do
+  swagger_schema :AuthorInput do
     allOf do
       schema do
-        key :'$ref', :Post
+        key :'$ref', :Author
       end
       schema do
         key :required, [:name]
@@ -26,4 +26,3 @@ class Post < ApplicationRecord
     end
   end
 end
-

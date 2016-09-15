@@ -33,7 +33,9 @@ class ApidocsController < ActionController::Base
   # A list of all classes that have swagger_* declarations.
   SWAGGERED_CLASSES = [
     PostsController, 
-    Post, 
+    Post,
+    AuthorsController,
+    Author,
     ErrorModel,  
     self,
   ].freeze
