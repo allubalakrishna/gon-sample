@@ -68,7 +68,7 @@ class PostsController < ApplicationController
       ]
       parameter do
         key :name, :post
-        key :abc, :post
+        key :pubhlish, :post
         key :in, :body
         key :description, 'Post to add to the store'
         key :required, true
@@ -158,6 +158,6 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:name, :abc)
+      params.require(:post).permit(:name, :pubhlish)
     end
 end

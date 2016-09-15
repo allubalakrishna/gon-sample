@@ -3,7 +3,7 @@ class Post < ApplicationRecord
 	include Swagger::Blocks
 
   swagger_schema :Post do
-    key :required, [:id, :name, :abc]
+    key :required, [:id, :name, :pubhlish]
     property :id do
       key :type, :integer
       key :format, :int64
@@ -11,7 +11,7 @@ class Post < ApplicationRecord
     property :name do
       key :type, :string
     end 
-    property :abc do
+    property :pubhlish do
       key :type, :string
     end    
   end
@@ -22,7 +22,7 @@ class Post < ApplicationRecord
         key :'$ref', :Post
       end
       schema do
-        key :required, [:name, :abc]        
+        key :required, [:name, :pubhlish]
         property :id do
           key :type, :integer
           key :format, :int64
