@@ -1,0 +1,12 @@
+xml.response(:code => @code) do 
+  xml.posts do
+    @posts.each do |post| 
+      xml.post do
+        xml.name(post.name)
+        # xml.description(item.product.description)
+        # xml.unit_price(item.product.list_price, :currency => "usd")
+        # xml.quantity(1)
+      end
+    end
+  end 
+end

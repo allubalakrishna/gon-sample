@@ -22,6 +22,9 @@
   </tbody>
 </table>
 
+<%= content_tag "div", id: "posts", data: {posts: @posts[0..2]} do %>
+  Loading posts...
+<% end %>
 <br>
 
 <%= link_to 'New Post', new_post_path %>
