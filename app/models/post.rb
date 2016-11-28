@@ -25,5 +25,24 @@ class Post < ApplicationRecord
       end
     end
   end
-end
 
+  extend FriendlyId
+  friendly_id :name, use: [:slugged, :history]
+
+  def slug_candidates
+    [
+      :title,
+      [:title, :id]
+    ]
+  end
+
+  # before_save :add_slug
+
+  # def add_slug
+  #   self.slug = name.parameterize
+  # end
+
+  # def to_param
+  #   name.parameterize
+  # end
+end

@@ -50,3 +50,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'swagger-blocks'
 gem 'rails_12factor', group: :production
 gem 'gon'
+gem 'friendly_id', '~> 5.1'
