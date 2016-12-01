@@ -1,32 +1,31 @@
-<%= form_for(author) do |f| %>
-  <% if author.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(author.errors.count, "error") %> prohibited this author from being saved:</h2>
-
-      <ul>
-      <% author.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+<%= form_tag authors_path do %>
+ <% if @errors.present? %>
+       <div id="error_explanation">
+          <h2><%= pluralize(@errors.count, "error") %> prohibited this author from being saved:</h2>
+         <ul>         
+            <% @errors.keys.each do |index| %>
+              <li><%= "Form-#{index.to_i+1}: #{@errors[index].join(', ')}" %></li>
+            <% end %>
+         </ul>
+       </div>
+    <% end %>
+  <% @my_var.each_with_index do |author, index|%>
+    <%= fields_for 'authors[]', author do |f| %>   
+      <%= f.label :name %>
+      <%= f.text_field :name, name: "authors[#{index}][name]" %>
+      <%= f.label :country %>
+      <%= f.text_field :country, name: "authors[#{index}][country]" %>
+      <%= f.label :gender %>
+      <%= f.text_field :gender, name: "authors[#{index}][gender]" %>
+    <% end %>
+    <br/>     
   <% end %>
-
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-  </div>
-
-  <div class="field">
-    <%= f.label :country %>
-    <%= f.text_field :country %>
-  </div>
-
-  <div class="field">
-    <%= f.label :gender %>
-    <%= f.number_field :gender %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+     <div class="actions">
+        <%= submit_tag %>
+      </div>
 <% end %>
+<style>
+  label{
+    display: -webkit-inline-box !important;
+  }
+</style>

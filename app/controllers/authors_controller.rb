@@ -137,7 +137,10 @@ class AuthorsController < ApplicationController
 
   # GET /authors/new
   def new
-    @author = Author.new
+    @my_var = []
+    5.times do |index|
+      @my_var << Author.new
+    end    
   end
 
   # GET /authors/1/edit
@@ -147,16 +150,23 @@ class AuthorsController < ApplicationController
   # POST /authors
   # POST /authors.json
   def create
-    @author = Author.new(author_params)
-
-    respond_to do |format|
-      if @author.save
-        format.html { redirect_to @author, notice: 'Author was successfully created.' }
-        format.json { render :show, status: :created, location: @author }
+    @errors = {}
+    @my_var = []         
+    params[:authors].keys.each do |key|      
+      @author = Author.create(author_params(params[:authors][key]))
+      if @author.errors.full_messages.present?
+         @errors[key] = @author.errors.full_messages
       else
-        format.html { render :new }
-        format.json { render json: @author.errors, status: :unprocessable_entity }
+         params[:authors].delete(key)
       end
+    end
+    if @errors.present?
+      @errors.keys.each do |index|        
+        @my_var << Author.new(author_params(params[:authors][index]))
+      end
+      render 'new', alert: @errors
+    else
+      redirect_to authors_path
     end
   end
 
@@ -191,7 +201,7 @@ class AuthorsController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def author_params
-      params.require(:author).permit(:name, :country, :gender)
+    def author_params(my_params)      
+      my_params.permit(:name, :country, :gender)
     end
 end

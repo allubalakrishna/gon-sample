@@ -1,6 +1,6 @@
 class Author < ApplicationRecord
-  validates :name, presence: true
-  enum gender: [:male, :female, :others]
+  validates :name, :country, presence: true
+  # enum gender: [:male, :female, :others]
   include Swagger::Blocks
   swagger_schema :Author do
     key :required, [:id, :name]
