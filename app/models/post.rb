@@ -36,6 +36,21 @@ class Post < ApplicationRecord
     ]
   end
 
+  after_create_commit :welcome_message
+  after_update_commit :update_message
+  after_destroy_commit :destroy_message
+
+  def welcome_message
+    puts "Welcome #{name}!!"
+  end 
+
+  def update_message
+    puts "#{name} updated!!"
+  end
+
+  def destroy_message
+    puts "#{name} destroyed!!"
+  end
   # before_save :add_slug
 
   # def add_slug
